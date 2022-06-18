@@ -24,14 +24,38 @@ class Fibonacci:
     self.index += 1
     return result
 
+class FibonacciV2:
+  def __init__(self, n):
+    self.limit = n
+    self.a = 0
+    self.b = 1
+    self.index = 0
 
-class MyTestCase(unittest.TestCase):
+  def __iter__(self):
+    return self
 
+  def __next__(self):
+    if self.index < self.limit:
+      result = self.a
+      self.a, self.b = self.b, self.a + self.b
+      self.index += 1
+      return result
+    else:
+      raise StopIteration
+
+
+class FibonacciTest(unittest.TestCase):
   @parameterized.parameterized.expand([(1, (0,)), (2, (0, 1)), (5, (0, 1, 1, 2, 3))])
   def test_something(self, limit, expected):
     fin = Fibonacci(limit)
     self.assertSequenceEqual(list(x for x in iter(fin)), expected)  # add assertion here
 
+
+class FibonacciTestV2(unittest.TestCase):
+  @parameterized.parameterized.expand([(1, (0,)), (2, (0, 1)), (5, (0, 1, 1, 2, 3))])
+  def test_something(self, limit, expected):
+    fin = FibonacciV2(limit)
+    self.assertSequenceEqual(list(x for x in iter(fin)), expected)  # add assertion here
 
 if __name__ == '__main__':
   unittest.main()
